@@ -1,0 +1,5 @@
+Football 200 130
+Basketball 400 3
+Skiing 20 1
+Kickboxing 50 20
+Running 1000 999
