@@ -32,6 +32,9 @@ int main(){
             search(sh);
             break;
         }
+        default:{
+            return 0;
+        }
         }
         break;
     }
@@ -47,6 +50,9 @@ int main(){
         edit();
         break;
     }
+    default:{
+            return 0;
+        }
     }
     }
 }
