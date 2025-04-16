@@ -4,6 +4,16 @@
 
 using namespace std;
 
+ostream& operator<<(ostream& os, const nm::tickets& Tickets){
+    os << Tickets.name << " " << Tickets.sold << " " << Tickets.used;
+    return os;
+}
+
+istream& operator>>(istream& is, nm::tickets& Tickets){
+    is >> Tickets.name >> Tickets.sold >> Tickets.used;
+    return is;
+}
+
 void nm::display(){
     string line;
     ifstream f;
@@ -17,52 +27,41 @@ void nm::display(){
 }
 
 void nm::search(string a){
-    string name, sold, used;
+    tickets editable;
     ifstream f;
     f.open("/home/japrocar/Документы/Лабы/laba1/Base.txt");
     if(!f.is_open())
         return;
-    while(f >> name){
-        f >> sold;
-        f >> used;
-        if(name == a){
-            cout << name << " " << sold<< " " << used << endl;
+    while(f >> editable){
+        if(editable.name == a){
+            cout << editable.name << " " << editable.sold<< " " << editable.used << endl;
         }
     }
     f.close();
 }
 
 void nm::search(int a){
-    string name, sold, used;
-    string x = to_string(a);
+    tickets editable;
     ifstream f;
     f.open("/home/japrocar/Документы/Лабы/laba1/Base.txt");
     if(!f.is_open())
         return;
-    while(f >> name){
-        f >> sold;
-        f >> used;
-        if(sold == x){
-            cout << name << " " << sold<< " " << used << endl;
+    while(f >> editable){
+        if(editable.sold == a){
+            cout << editable.name << " " << editable.sold<< " " << editable.used << endl;
         }
     }
     f.close();
 }
 
 void nm::add(){
-    string edName;
-    int edSold, edUsed;
-    cout << "Введите имя переменной ";
-    cin >> edName;
-    cout << "Введите кол-во проданных билетов ";
-    cin >> edSold;
-    cout << "Введите кол-во использованных билетов ";
-    cin >> edUsed;
-    ofstream f;
+    tickets editable;
+    cin >> editable;
+    fstream f;
     f.open("/home/japrocar/Документы/Лабы/laba1/Base.txt", ios::app | ios::ate);
     if(!f.is_open())
         return;
-    f << edName << " " << edSold << " " << edUsed << endl;
+    f << editable.name << " " << editable.sold << " " << editable.used;
     f.close();
 }
 
@@ -81,31 +80,21 @@ void nm::del(){
     fread.open("/home/japrocar/Документы/Лабы/laba1/Base.txt");
     if(!fread.is_open())
         return;
-    string eds;
-    int edi;
+    tickets editable2;
     for(int n = 0; n < i; n++){
-        fread >> eds;
-        arr[n].name = eds;
-        fread >> edi;
-        arr[n].sold = edi;
-        fread >> edi;
-        arr[n].used = edi;
+        fread >> editable2;
+        arr[n] = editable2;
     }
     fread.close();
-    string edName;
-    int edSold, edUsed;
-    cout << "Введите имя переменной ";
-    cin >> edName;
-    cout << "Введите кол-во проданных билетов ";
-    cin >> edSold;
-    cout << "Введите кол-во использованных билетов ";
-    cin >> edUsed;
+    tickets editable;
+    cout << "Введите названия, продажи, использования переменной ";
+    cin >> editable;
     ofstream fwrite;
     fwrite.open("/home/japrocar/Документы/Лабы/laba1/Base.txt");
     if(!fwrite.is_open())
         return;
     for(int n = 0; n < i; n++){
-        if((arr[n].name != edName) || (arr[n].sold != edSold) || (arr[n].used != edUsed)){
+        if((arr[n].name != editable.name) || (arr[n].sold != editable.sold) || (arr[n].used != editable.used)){
             fwrite << arr[n].name << " " << arr[n].sold << " " << arr[n].used << endl;
         }
     }
@@ -126,42 +115,27 @@ void nm::edit(){
     fread.open("/home/japrocar/Документы/Лабы/laba1/Base.txt");
     if(!fread.is_open())
         return;
-    string eds;
-    int edi;
+    tickets editable;
     for(int n = 0; n < i; n++){
-        fread >> eds;
-        arr[n].name = eds;
-        fread >> edi;
-        arr[n].sold = edi;
-        fread >> edi;
-        arr[n].used = edi;
+        fread >> editable;
+        arr[n] = editable;
     }
     fread.close();
-    string oldName;
-    int oldSold, oldUsed;
-    cout << "Введите имя переменной ";
-    cin >> oldName;
-    cout << "Введите кол-во проданных билетов ";
-    cin >> oldSold;
-    cout << "Введите кол-во использованных билетов ";
-    cin >> oldUsed;
-    string newName;
-    int newSold, newUsed;
-    cout << "Введите имя переменной ";
-    cin >> newName;
-    cout << "Введите кол-во проданных билетов ";
-    cin >> newSold;
-    cout << "Введите кол-во использованных билетов ";
-    cin >> newUsed;
+    tickets editableOLD;
+    cout << "Введите старые название, продажи, использования переменной ";
+    cin >> editableOLD;
+    tickets editableNEW;
+    cout << "Введите новые названия, продажи, использования переменной ";
+    cin >> editableNEW;
     ofstream fwrite;
     fwrite.open("/home/japrocar/Документы/Лабы/laba1/Base.txt");
     if(!fwrite.is_open())
-        return;    
+        return;
     for(int n = 0; n < i; n++){
-        if((arr[n].name != oldName) || (arr[n].sold != oldSold) || (arr[n].used != oldUsed)){
+        if((arr[n].name != editableOLD.name) || (arr[n].sold != editableOLD.sold) || (arr[n].used != editableOLD.used)){
             fwrite << arr[n].name << " " << arr[n].sold << " " << arr[n].used << endl;
         }else{
-            fwrite << newName << " " << newSold << " " << newUsed << endl;
+            fwrite << editableNEW.name << " " << editableNEW.sold << " " << editableNEW.used << endl;
         }
     }
 }
